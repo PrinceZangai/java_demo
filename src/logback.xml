@@ -1,0 +1,13 @@
+<configuration>
+<!--    日志输出的格式标签-->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>[%thread] %-5level %logger{35} - %msg %n</pattern>
+        </encoder>
+    </appender>
+    <logger name="com.mybatis.test" level="INFO" additivity="false">
+        <appender-ref ref="STDOUT"></appender-ref>
+    </logger>
+<!--    全局设置-->
+<!--    <root level="DEBUG"></root>--> 
+</configuration>
