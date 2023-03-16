@@ -10,8 +10,8 @@ public class demo1 {
 //        System.out.println("请输入密码");
 //        String password=s.next();
 
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection conn= DriverManager.getConnection("jdbc:mysql:///db6","root","123321");
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection conn= DriverManager.getConnection("jdbc:mysql://localhost:3306/db6","root","123321");
 
 //        PreparedStatement ps=conn.prepareStatement("select * from user where username=? and password=?");
 //        ps.setString(1,username);

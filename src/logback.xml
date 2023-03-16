@@ -5,9 +5,11 @@
             <pattern>[%thread] %-5level %logger{35} - %msg %n</pattern>
         </encoder>
     </appender>
-    <logger name="com.mybatis.test" level="INFO" additivity="false">
+    <logger name="com.mybatis.dao" level="DEBUG" additivity="false">
         <appender-ref ref="STDOUT"></appender-ref>
     </logger>
 <!--    全局设置-->
-<!--    <root level="DEBUG"></root>--> 
+<!--    <root level="DEBUG">-->
+<!--        <appender-ref ref="STDOUT"></appender-ref>-->
+<!--    </root>-->
 </configuration>

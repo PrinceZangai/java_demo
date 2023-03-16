@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mybatis.dao.WifeDao">
+    <resultMap id="wifeHusbandMap" type="wife">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="hid" property="hid"/>
+        <association property="husband" column="hid" javaType="husband" select="com.mybatis.dao.HusbandDao.findById"/>
+    </resultMap>
+<!--    <resultMap id="wifeHusbandMap" type="wife">-->
+<!--        <id column="id" property="id"/>-->
+<!--        <result column="name" property="name"/>-->
+<!--        <result column="hid" property="hid"/>-->
+<!--        <association property="husband" column="hid" javaType="husband">-->
+<!--               <id column="hid" property="id"/>-->
+<!--            <result column="hname" property="name"/>-->
+<!--        </association>-->
+<!--    </resultMap>-->
+
+    <!--<select id="findById" parameterType="int" resultType="com.mybatis.domain.Wife">
+        select *from wife where id=#{id}
+    </select>-->
+
+<!--    <select id="findById" parameterType="int" resultMap="wifeHusbandMap">-->
+<!--        select w.id,w.name wname,h.id hid,h.name hname from wife w,husband h where w.hid=h.id and w.id=#{id}-->
+<!--    </select>-->
+
+    <select id="findById" parameterType="int" resultMap="wifeHusbandMap">
+        select * from wife where id=#{id}
+    </select>
+</mapper>

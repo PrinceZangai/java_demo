@@ -3,10 +3,102 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mybatis.dao.UserDao">
-    <select id="findAll" resultType="com.mybatis.domain.User">
+    <cache/>
+
+    <resultMap id="userMap" type="user">
+<!--        配置数据库字段名和类属性的匹配，当名字不同时需要配置-->
+<!--        主键使用id-->
+        <id column="uid" property="id"></id>
+<!--        非主键使用result-->
+        <result column="name" property="username"></result>
+    </resultMap>
+    <select id="findAll" resultType="user">
         select * from user;
     </select>
-    <insert id="add" parameterType="com.mybatis.domain.User">
+    <insert id="add" parameterType="user">
         insert into user values(null,#{username},#{password})
     </insert>
+    <update id="update" parameterType="user">
+        update user set username=#{username},password=#{password} where id=#{id}
+    </update>
+    <delete id="delete" parameterType="int">
+        delete from user where id=#{id}
+    </delete>
+    <select id="findById" parameterType="int" resultType="user" useCache="true">
+        select * from user where id=#{id}
+    </select>
+    <select id="count" resultType="int">
+        select count(*) from user
+    </select>
+    <select id="findByName" parameterType="string" resultType="com.mybatis.domain.User">
+        select * from user where username like #{name}
+        <!--select * from user where username like '%${name}%'-->
+    </select>
+
+<!--    <select id="findByPage" parameterType="map" resultType="com.mybatis.domain.User">-->
+<!--        select * from user limit #{index},#{page}-->
+<!--    </select>-->
+
+    <select id="findByPage" parameterType="int" resultType="com.mybatis.domain.User">
+        select *from user limit #{index},#{page}
+    </select>
+
+    <select id="findByPerson" parameterType="com.mybatis.domain.Person" resultType="com.mybatis.domain.User">
+        select *from user where id=#{user.id}
+    </select>
+
+    <insert id="add2" parameterType="user">
+       /* keyColumn:表中的字段名
+        keyProperty:类中的属性名,这个属性会让mybatis将查询到的id值返回到user对象中。
+        order:berfore：之前执行，after：之后执行*/
+        <selectKey keyColumn="id" keyProperty="id" resultType="int" order="AFTER">
+            select last_insert_id()
+        </selectKey>
+        insert into user values(null,#{username},#{password})
+    </insert>
+
+    <select id="findByCondition" parameterType="user" resultType="user">
+        select * from user
+        <where>
+            <if test="id !=0">
+                id=#{id}
+            </if>
+            <if test="username != null">
+                and username=#{username}
+            </if>
+        </where>
+    </select>
+
+    <select id="findByIds" parameterType="int[]" resultType="user">
+        select * from user
+        <where>
+            <foreach collection="array" open="id in (" close=")" item="id" separator=",">
+                #{id}
+            </foreach>
+        </where>
+      </select>
+
+<!--    <resultMap id="UserComputerMap" type="user">-->
+<!--        <id column="id" property="id"/>-->
+<!--        <result column="username" property="username"/>-->
+<!--        <result column="password" property="password"/>-->
+<!--        <collection property="computers" column="id" ofType="computer">-->
+<!--            <id column="cid" property="id"/>-->
+<!--            <result column="cname" property="name"/>-->
+<!--            <result column="id" property="uid"/>-->
+<!--        </collection>-->
+<!--    </resultMap>-->
+<!--    <select id="findAllWithComputer" resultMap="UserComputerMap" >-->
+<!--        select u.*,c.id cid,c.name cname from user u,computer c where u.id=c.uid-->
+<!--    </select>-->
+
+    <resultMap id="UserComputerMap" type="user">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <collection property="computers" column="id" ofType="computer" select="com.mybatis.dao.ComputerDao.findByUid"/>
+    </resultMap>
+    <select id="findAllWithComputer" resultMap="UserComputerMap">
+        select * from user
+    </select>
 </mapper>

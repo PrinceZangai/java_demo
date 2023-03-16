@@ -2,6 +2,21 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+    
+    <settings>
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <setting name="aggressiveLazyLoading" value="false"/>
+
+        <!--开启2级缓存-->
+        <setting name="cacheEnabled" value="true"/>
+    </settings>
+<!--    配置别名-->
+    <typeAliases>
+        <typeAlias type="com.mybatis.domain.User" alias="user"></typeAlias>
+        <typeAlias type="com.mybatis.domain.Person" alias="person"></typeAlias>
+        <package name="com.mybatis.domain"/>
+    </typeAliases>
+
     <environments default="mysql">
         <environment id="mysql">
             <transactionManager type="JDBC"></transactionManager>
@@ -16,5 +31,10 @@
 
     <mappers>
         <mapper resource="com/mybatis/dao/UserMapper.xml"></mapper>
+        <mapper resource="com/mybatis/dao/WifeMapper.xml"></mapper>
+        <mapper resource="com/mybatis/dao/HusbandMapper.xml"></mapper>
+        <mapper resource="com/mybatis/dao/ComputerMapper.xml"></mapper>
+        <mapper resource="com/mybatis/dao/StudentMapper.xml"></mapper>
+<!--        <mapper resource="com/mybatis/dao/TeacherMapper.xml"></mapper>-->
     </mappers>
 </configuration>

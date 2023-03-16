@@ -1,9 +1,22 @@
 package com.mybatis.domain;
 
-public class User {
+import java.io.Serializable;
+import java.util.List;
+
+public class User implements Serializable {
     private int id;
     private String username;
     private String password;
+
+    public List<Computer> getComputers() {
+        return computers;
+    }
+
+    public void setComputers(List<Computer> computers) {
+        this.computers = computers;
+    }
+
+    private List<Computer> computers;
     public User(){}
 
     public User(int id, String username, String password) {
@@ -42,6 +55,7 @@ public class User {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                ", computers=" + computers +
                 '}';
     }
 }
