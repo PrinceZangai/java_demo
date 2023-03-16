@@ -1,3 +1,5 @@
+package com.myenum;
+
 enum Week{
     MON("monday"){
         public void show(){
